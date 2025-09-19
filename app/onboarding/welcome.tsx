@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   outfitImage: {
-    width: moderateScale(200),
-    height: moderateScale(350),
+    width: moderateScale(280),
+    height: moderateScale(480),
     alignSelf: 'center',
   },
   title: {
