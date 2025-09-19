@@ -12,8 +12,9 @@ import FavoriteHoodieScreen from './onboarding/favorite-hoodie';
 import TakeSelfieScreen from './onboarding/take-selfie';
 import AddToClosetScreen from './onboarding/add-to-closet';
 import RatingScreen from './onboarding/rating';
+import BuildingClosetScreen from './onboarding/building-closet';
 
-type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics' | 'item-lookup' | 'favorite-shoes' | 'favorite-hoodie' | 'take-selfie' | 'add-to-closet' | 'rating';
+type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics' | 'item-lookup' | 'favorite-shoes' | 'favorite-hoodie' | 'take-selfie' | 'add-to-closet' | 'rating' | 'building-closet';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
@@ -60,6 +61,9 @@ export default function App() {
       case 'rating':
         setCurrentStep('add-to-closet');
         break;
+      case 'building-closet':
+        setCurrentStep('rating');
+        break;
       default:
         break;
     }
@@ -91,7 +95,9 @@ export default function App() {
     case 'add-to-closet':
       return <AddToClosetScreen onNext={() => handleNextStep('rating')} onBack={handleBackStep} />;
     case 'rating':
-      return <RatingScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
+      return <RatingScreen onNext={() => handleNextStep('building-closet')} onBack={handleBackStep} />;
+    case 'building-closet':
+      return <BuildingClosetScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
     default:
       return <WelcomeScreen onNext={() => handleNextStep('gender')} />;
   }
