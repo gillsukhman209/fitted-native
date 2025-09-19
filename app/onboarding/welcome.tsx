@@ -100,17 +100,21 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: theme.spacing.xl,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: theme.spacing.xxl,
+    paddingBottom: theme.spacing.xl,
   },
   outfitContainer: {
+    width: '100%',
     alignItems: 'center',
-    marginBottom: theme.spacing.xxl,
-    marginTop: theme.spacing.xl,
+    justifyContent: 'center',
+    flex: 2,
   },
   outfitImage: {
     width: moderateScale(200),
-    height: moderateScale(420),
+    height: moderateScale(350),
+    alignSelf: 'center',
   },
   title: {
     fontSize: moderateScale(28),
@@ -131,6 +135,6 @@ const styles = StyleSheet.create({
     lineHeight: moderateScale(18),
   },
   link: {
-    textDecorationLine: 'underline',
+    textDecorationLine: 'none',
   },
 });
