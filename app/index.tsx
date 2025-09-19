@@ -9,8 +9,11 @@ import BasicsScreen from './onboarding/basics';
 import ItemLookupScreen from './onboarding/item-lookup';
 import FavoriteShoesScreen from './onboarding/favorite-shoes';
 import FavoriteHoodieScreen from './onboarding/favorite-hoodie';
+import TakeSelfieScreen from './onboarding/take-selfie';
+import AddToClosetScreen from './onboarding/add-to-closet';
+import RatingScreen from './onboarding/rating';
 
-type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics' | 'item-lookup' | 'favorite-shoes' | 'favorite-hoodie';
+type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics' | 'item-lookup' | 'favorite-shoes' | 'favorite-hoodie' | 'take-selfie' | 'add-to-closet' | 'rating';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
@@ -48,6 +51,15 @@ export default function App() {
       case 'favorite-hoodie':
         setCurrentStep('favorite-shoes');
         break;
+      case 'take-selfie':
+        setCurrentStep('favorite-hoodie');
+        break;
+      case 'add-to-closet':
+        setCurrentStep('take-selfie');
+        break;
+      case 'rating':
+        setCurrentStep('add-to-closet');
+        break;
       default:
         break;
     }
@@ -73,7 +85,13 @@ export default function App() {
     case 'favorite-shoes':
       return <FavoriteShoesScreen onNext={() => handleNextStep('favorite-hoodie')} onBack={handleBackStep} />;
     case 'favorite-hoodie':
-      return <FavoriteHoodieScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
+      return <FavoriteHoodieScreen onNext={() => handleNextStep('take-selfie')} onBack={handleBackStep} />;
+    case 'take-selfie':
+      return <TakeSelfieScreen onNext={() => handleNextStep('add-to-closet')} onBack={handleBackStep} />;
+    case 'add-to-closet':
+      return <AddToClosetScreen onNext={() => handleNextStep('rating')} onBack={handleBackStep} />;
+    case 'rating':
+      return <RatingScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
     default:
       return <WelcomeScreen onNext={() => handleNextStep('gender')} />;
   }
