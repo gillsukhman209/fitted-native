@@ -74,11 +74,12 @@ export const PillButton: React.FC<PillButtonProps> = ({
 
 const styles = StyleSheet.create({
   base: {
-    height: moderateScale(56),
+    minHeight: moderateScale(56),
     borderRadius: moderateScale(28),
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: theme.spacing.xl,
+    paddingVertical: theme.spacing.md,
     marginVertical: theme.spacing.sm,
     width: '100%',
   },
@@ -94,6 +95,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: theme.typography.sizes.base,
     fontWeight: theme.typography.weights.semibold,
+    textAlign: 'center',
+    lineHeight: moderateScale(22),
   },
   selectedText: {
     color: theme.colors.button.primaryText,

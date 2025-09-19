@@ -12,23 +12,29 @@ import { Button } from '../../components/Button';
 import { PillButton } from '../../components/PillButton';
 import { BackButton } from '../../components/BackButton';
 
-type GenderOption = 'male' | 'female' | 'other' | null;
+type StyleOption = 'clean' | 'plan-sometimes' | 'always-plan';
 
-interface GenderScreenProps {
+interface StylePreferencesScreenProps {
   onNext: () => void;
   onBack: () => void;
 }
 
-export default function GenderScreen({ onNext, onBack }: GenderScreenProps) {
-  const [selectedGender, setSelectedGender] = useState<GenderOption>(null);
+export default function StylePreferencesScreen({ onNext, onBack }: StylePreferencesScreenProps) {
+  const [selectedOptions, setSelectedOptions] = useState<StyleOption[]>([]);
 
-  const handleGenderSelect = (gender: GenderOption) => {
-    setSelectedGender(gender);
+  const handleOptionSelect = (option: StyleOption) => {
+    setSelectedOptions(prev => {
+      if (prev.includes(option)) {
+        return prev.filter(o => o !== option);
+      } else {
+        return [...prev, option];
+      }
+    });
   };
 
   const handleContinue = () => {
-    if (selectedGender) {
-      console.log('Continue with gender:', selectedGender);
+    if (selectedOptions.length > 0) {
+      console.log('Continue with style preferences:', selectedOptions);
       onNext();
     }
   };
@@ -47,7 +53,7 @@ export default function GenderScreen({ onNext, onBack }: GenderScreenProps) {
           entering={FadeInUp.delay(100).springify()}
           style={styles.title}
         >
-          Choose your Gender
+          How do you currently{'\n'}style yourself?
         </Animated.Text>
 
         {/* Subtitle */}
@@ -58,50 +64,42 @@ export default function GenderScreen({ onNext, onBack }: GenderScreenProps) {
           This allow our stylist to make{'\n'}better recommendations.
         </Animated.Text>
 
-        {/* Gender Options */}
+        {/* Style Options */}
         <Animated.View
           entering={FadeInUp.delay(300).springify()}
           style={styles.optionsContainer}
         >
           <PillButton
-            title="Male"
-            selected={selectedGender === 'male'}
-            onPress={() => handleGenderSelect('male')}
+            title="I just wear whatever is clean"
+            selected={selectedOptions.includes('clean')}
+            onPress={() => handleOptionSelect('clean')}
           />
 
           <PillButton
-            title="Female"
-            selected={selectedGender === 'female'}
-            onPress={() => handleGenderSelect('female')}
+            title="I sometimes plan my outfits, but don't really have time"
+            selected={selectedOptions.includes('plan-sometimes')}
+            onPress={() => handleOptionSelect('plan-sometimes')}
           />
 
           <PillButton
-            title="Other"
-            selected={selectedGender === 'other'}
-            onPress={() => handleGenderSelect('other')}
+            title="I always plan out my outfits"
+            selected={selectedOptions.includes('always-plan')}
+            onPress={() => handleOptionSelect('always-plan')}
           />
         </Animated.View>
 
-        {/* Footer and Continue Button Container */}
+        {/* Bottom Container */}
         <View style={styles.bottomContainer}>
-          <Animated.Text
-            entering={FadeInUp.delay(400).springify()}
-            style={styles.footer}
-          >
-            By continuing you agree to the{'\n'}
-            <Text style={styles.link}>Terms of Service</Text> and <Text style={styles.link}>Privacy Policy</Text>
-          </Animated.Text>
-
           {/* Continue Button */}
           <Animated.View
-            entering={FadeInUp.delay(500).springify()}
+            entering={FadeInUp.delay(400).springify()}
             style={styles.buttonContainer}
           >
             <Button
               title="Continue"
               onPress={handleContinue}
               variant="primary"
-              disabled={!selectedGender}
+              disabled={selectedOptions.length === 0}
             />
           </Animated.View>
         </View>
@@ -129,6 +127,7 @@ const styles = StyleSheet.create({
     color: theme.colors.text.primary,
     textAlign: 'center',
     marginBottom: theme.spacing.md,
+    lineHeight: moderateScale(34),
   },
   subtitle: {
     fontSize: moderateScale(16),
@@ -144,16 +143,6 @@ const styles = StyleSheet.create({
   bottomContainer: {
     width: '100%',
     marginTop: 'auto',
-  },
-  footer: {
-    fontSize: moderateScale(12),
-    color: theme.colors.text.secondary,
-    textAlign: 'center',
-    lineHeight: moderateScale(18),
-    marginBottom: theme.spacing.lg,
-  },
-  link: {
-    textDecorationLine: 'none',
   },
   buttonContainer: {
     width: '100%',
