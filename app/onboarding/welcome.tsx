@@ -13,13 +13,19 @@ import { theme, moderateScale } from '../../constants/theme';
 import { Button } from '../../components/Button';
 import { GoogleIcon } from '../../components/GoogleIcon';
 
-export default function WelcomeScreen() {
+interface WelcomeScreenProps {
+  onNext: () => void;
+}
+
+export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
   const handleAppleSignIn = () => {
     console.log('Continue with Apple');
+    onNext();
   };
 
   const handleGoogleSignIn = () => {
     console.log('Continue with Google');
+    onNext();
   };
 
   const handleOtherOptions = () => {
