@@ -6,8 +6,11 @@ import HeightWeightScreen from './onboarding/height-weight';
 import ClosetIntroScreen from './onboarding/closet-intro';
 import BrandsScreen from './onboarding/brands';
 import BasicsScreen from './onboarding/basics';
+import ItemLookupScreen from './onboarding/item-lookup';
+import FavoriteShoesScreen from './onboarding/favorite-shoes';
+import FavoriteHoodieScreen from './onboarding/favorite-hoodie';
 
-type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics';
+type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics' | 'item-lookup' | 'favorite-shoes' | 'favorite-hoodie';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
@@ -36,6 +39,15 @@ export default function App() {
       case 'basics':
         setCurrentStep('brands');
         break;
+      case 'item-lookup':
+        setCurrentStep('basics');
+        break;
+      case 'favorite-shoes':
+        setCurrentStep('item-lookup');
+        break;
+      case 'favorite-hoodie':
+        setCurrentStep('favorite-shoes');
+        break;
       default:
         break;
     }
@@ -55,7 +67,13 @@ export default function App() {
     case 'brands':
       return <BrandsScreen onNext={() => handleNextStep('basics')} onBack={handleBackStep} />;
     case 'basics':
-      return <BasicsScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
+      return <BasicsScreen onNext={() => handleNextStep('item-lookup')} onBack={handleBackStep} />;
+    case 'item-lookup':
+      return <ItemLookupScreen onNext={() => handleNextStep('favorite-shoes')} onBack={handleBackStep} />;
+    case 'favorite-shoes':
+      return <FavoriteShoesScreen onNext={() => handleNextStep('favorite-hoodie')} onBack={handleBackStep} />;
+    case 'favorite-hoodie':
+      return <FavoriteHoodieScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
     default:
       return <WelcomeScreen onNext={() => handleNextStep('gender')} />;
   }
