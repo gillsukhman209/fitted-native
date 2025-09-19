@@ -3,8 +3,11 @@ import WelcomeScreen from './onboarding/welcome';
 import GenderScreen from './onboarding/gender';
 import StylePreferencesScreen from './onboarding/style-preferences';
 import HeightWeightScreen from './onboarding/height-weight';
+import ClosetIntroScreen from './onboarding/closet-intro';
+import BrandsScreen from './onboarding/brands';
+import BasicsScreen from './onboarding/basics';
 
-type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight';
+type OnboardingStep = 'welcome' | 'gender' | 'style-preferences' | 'height-weight' | 'closet-intro' | 'brands' | 'basics';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('welcome');
@@ -24,6 +27,15 @@ export default function App() {
       case 'height-weight':
         setCurrentStep('style-preferences');
         break;
+      case 'closet-intro':
+        setCurrentStep('height-weight');
+        break;
+      case 'brands':
+        setCurrentStep('closet-intro');
+        break;
+      case 'basics':
+        setCurrentStep('brands');
+        break;
       default:
         break;
     }
@@ -37,7 +49,13 @@ export default function App() {
     case 'style-preferences':
       return <StylePreferencesScreen onNext={() => handleNextStep('height-weight')} onBack={handleBackStep} />;
     case 'height-weight':
-      return <HeightWeightScreen onNext={() => console.log('Next step - continue to next screens')} onBack={handleBackStep} />;
+      return <HeightWeightScreen onNext={() => handleNextStep('closet-intro')} onBack={handleBackStep} />;
+    case 'closet-intro':
+      return <ClosetIntroScreen onNext={() => handleNextStep('brands')} onBack={handleBackStep} />;
+    case 'brands':
+      return <BrandsScreen onNext={() => handleNextStep('basics')} onBack={handleBackStep} />;
+    case 'basics':
+      return <BasicsScreen onNext={() => console.log('Onboarding complete!')} onBack={handleBackStep} />;
     default:
       return <WelcomeScreen onNext={() => handleNextStep('gender')} />;
   }
